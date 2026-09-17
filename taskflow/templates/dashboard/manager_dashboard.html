@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Manager Dashboard</title>
+</head>
+<body>
+  <h1>Manager Dashboard</h1>
+  <p>Welcome, {{ request.user.get_full_name|default:request.user.username }} (Manager)</p>
+  <ul>
+    <li><a href="/tasks/">View All Tasks</a></li>
+    <li><a href="/accounts/employees/create/">Create Employee</a></li>
+  </ul>
+</body>
+</html>
