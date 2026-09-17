@@ -1,15 +1,34 @@
+{% load static %}
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Manager Dashboard</title>
-</head>
-<body>
-  <h1>Manager Dashboard</h1>
-  <p>Welcome, {{ request.user.get_full_name|default:request.user.username }} (Manager)</p>
-  <ul>
-    <li><a href="/tasks/">View All Tasks</a></li>
-    <li><a href="/accounts/employees/create/">Create Employee</a></li>
-  </ul>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Manager Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-title">TaskFlow</div>
+      <div class="site-actions">
+        <form method="post" action="/accounts/logout/">
+          {% csrf_token %}
+          <button type="submit" class="btn secondary">Logout</button>
+        </form>
+      </div>
+    </header>
+
+    <main class="container">
+      <h1>Manager Dashboard</h1>
+      <h2>
+        Welcome, {{ request.user.get_full_name|default:request.user.username }}
+        (Manager)
+      </h2>
+
+      <div class="row">
+        <a class="small" href="/tasks/">View All Tasks</a>
+        <a class="small" href="/accounts/employees/create/">Create Employee</a>
+      </div>
+    </main>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
 </html>

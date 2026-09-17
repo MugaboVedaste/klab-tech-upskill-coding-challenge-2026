@@ -59,6 +59,45 @@ def login_view(request):
     return render(request, "accounts/login.html")
 
 
+def register_manager(request):
+    """Public manager registration. Accounts created as inactive and require
+    superuser approval (activate via Django admin).
+    """
+    error = None
+    if request.method == "POST":
+        username = request.POST.get("username")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        department = request.POST.get("department")
+
+        # Basic validation: unique username and email
+        if User.objects.filter(username=username).exists():
+            error = "Username already taken."
+        elif User.objects.filter(email=email).exists():
+            error = "An account with that email already exists."
+        else:
+            # Create manager user but keep inactive until approved by superuser
+            employee = User.objects.create_user(
+                username=username,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                password=password,
+                role=User.Role.MANAGER,
+                is_active=False,
+            )
+
+            if department:
+                employee.department = department
+                employee.save(update_fields=["department"])
+
+            return render(request, "accounts/registration_submitted.html", {"username": username})
+
+    return render(request, "accounts/register_manager.html", {"error": error})
+
+
 @login_required
 def logout_view(request):
     logout(request)

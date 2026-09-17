@@ -14,5 +14,8 @@ class User(AbstractUser):
         default=Role.EMPLOYEE,
     )
 
+    # Optional department for managers
+    department = models.CharField(max_length=100, null=True, blank=True)
+
     def __str__(self):
         return self.username
