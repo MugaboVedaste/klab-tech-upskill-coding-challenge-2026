@@ -28,6 +28,51 @@
         <a class="small" href="/tasks/">View All Tasks</a>
         <a class="small" href="/accounts/employees/create/">Create Employee</a>
       </div>
+
+      <section style="margin-top: 18px">
+        <h3>Employees</h3>
+        {% if employees %}
+        <ul>
+          {% for e in employees %}
+          <li>
+            {{ e.get_full_name|default:e.username }} — {{ e.email }}
+            {% if e.is_active %}
+            <form
+              method="post"
+              action="{% url 'pause_employee' e.id %}"
+              style="display: inline"
+            >
+              {% csrf_token %}<button
+                class="link-button"
+                data-confirm="Pause this employee?"
+              >
+                Pause
+              </button>
+            </form>
+            {% endif %}
+            {% if not e.is_active %}
+            <span class="muted">(paused)</span>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="notice">No employees yet.</div>
+        {% endif %}
+      </section>
+
+      <section style="margin-top: 18px">
+        <h3>Tasks</h3>
+        {% if tasks %}
+        <ul>
+          {% for t in tasks %}
+          <li>{{ t }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="notice">No tasks available.</div>
+        {% endif %}
+      </section>
     </main>
     <script src="{% static 'js/main.js' %}"></script>
   </body>

@@ -11,4 +11,6 @@ urlpatterns = [
         views.create_employee,
         name="create_employee",
     ),
+    path("employees/", views.employee_list, name="employee_list"),
+    path("employees/<int:user_id>/pause/", views.pause_employee, name="pause_employee"),
 ]
