@@ -10,7 +10,7 @@
     <header class="site-header">
       <div class="site-title">TaskFlow</div>
       <div class="site-actions">
-        <form method="post" action="/accounts/logout/">
+        <form method="post" action="{% url 'logout' %}">
           {% csrf_token %}
           <button type="submit" class="btn secondary">Logout</button>
         </form>
@@ -26,7 +26,7 @@
 
       <div class="row">
         <a class="small" href="/tasks/">View All Tasks</a>
-        <a class="small" href="/accounts/employees/create/">Create Employee</a>
+        <a class="small" href="{% url 'create_employee' %}">Create Employee</a>
       </div>
 
       <section style="margin-top: 18px">
@@ -52,6 +52,18 @@
             {% endif %}
             {% if not e.is_active %}
             <span class="muted">(paused)</span>
+            <form
+              method="post"
+              action="{% url 'resume_employee' e.id %}"
+              style="display: inline"
+            >
+              {% csrf_token %}<button
+                class="link-button"
+                data-confirm="Resume this employee?"
+              >
+                Resume
+              </button>
+            </form>
             {% endif %}
           </li>
           {% endfor %}

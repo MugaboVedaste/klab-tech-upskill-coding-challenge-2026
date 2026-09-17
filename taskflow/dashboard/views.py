@@ -10,17 +10,17 @@ def dashboard_view(request):
 	# Render manager or employee dashboard based on user role
 	role = getattr(request.user, "role", "employee")
 	if role == "manager":
-		# get employees list
-		employees = User.objects.filter(role=User.Role.EMPLOYEE)
+		# get employees this manager owns
+		employees = User.objects.filter(role=User.Role.EMPLOYEE, manager=request.user)
 
 		# try to import Task model if present
 		tasks = []
 		try:
 			from tasks.models import Task
-
-			tasks = Task.objects.all()
-		except Exception:
+		except ImportError:
 			tasks = []
+		else:
+			tasks = Task.objects.all()
 
 		template = "dashboard/manager_dashboard.html"
 		return render(request, template, {"employees": employees, "tasks": tasks})

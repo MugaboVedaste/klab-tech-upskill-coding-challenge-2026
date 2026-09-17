@@ -13,4 +13,5 @@ urlpatterns = [
     ),
     path("employees/", views.employee_list, name="employee_list"),
     path("employees/<int:user_id>/pause/", views.pause_employee, name="pause_employee"),
+    path("employees/<int:user_id>/resume/", views.resume_employee, name="resume_employee"),
 ]

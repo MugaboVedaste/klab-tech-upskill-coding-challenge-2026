@@ -10,7 +10,7 @@
     <header class="site-header">
       <div class="site-title">TaskFlow</div>
       <div class="site-actions">
-        <a class="btn" href="/accounts/employees/create/">New Employee</a>
+        <a class="btn" href="{% url 'create_employee' %}">New Employee</a>
         <a class="btn secondary" href="{% url 'dashboard' %}">Dashboard</a>
       </div>
     </header>
@@ -30,6 +30,10 @@
           {% endif %}
           {% if not e.is_active %}
           <span class="muted">(paused)</span>
+          <form method="post" action="{% url 'resume_employee' e.id %}" style="display: inline">
+            {% csrf_token %}
+            <button class="link-button" data-confirm="Resume this employee?">Resume</button>
+          </form>
           {% endif %}
         </li>
         {% endfor %}
