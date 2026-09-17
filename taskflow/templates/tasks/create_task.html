@@ -1,0 +1,67 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Task</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-title">TaskFlow</div>
+      <div class="site-actions">
+        <a class="btn secondary" href="{% url 'task_list' %}">Back to Tasks</a>
+      </div>
+    </header>
+
+    <div class="container">
+      <h1>Create Task</h1>
+
+      {% if error %}
+      <div class="notice">{{ error }}</div>
+      {% endif %}
+
+      {% if employees %}
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-row">
+          <label>Title</label>
+          <input type="text" name="title" required />
+        </div>
+
+        <div class="form-row">
+          <label>Description</label>
+          <textarea name="description" rows="4"></textarea>
+        </div>
+
+        <div class="form-row">
+          <label>Priority</label>
+          <select name="priority">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label>Assign to</label>
+          <select name="assigned_to" required>
+            {% for e in employees %}
+            <option value="{{ e.id }}">{{ e.get_full_name|default:e.username }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="row">
+          <button type="submit">Create Task</button>
+        </div>
+      </form>
+      {% else %}
+      <div class="notice">You have no active employees to assign a task to.</div>
+      {% endif %}
+    </div>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

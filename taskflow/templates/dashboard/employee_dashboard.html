@@ -25,7 +25,7 @@
       </h2>
 
       <div class="row">
-        <a class="small" href="/tasks/my/">My Tasks</a>
+        <a class="small" href="{% url 'my_tasks' %}">My Tasks ({{ tasks|length }})</a>
       </div>
     </main>
     <script src="{% static 'js/main.js' %}"></script>

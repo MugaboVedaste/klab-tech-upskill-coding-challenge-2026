@@ -25,9 +25,22 @@
       </h2>
 
       <div class="row">
-        <a class="small" href="/tasks/">View All Tasks</a>
+        <a class="small" href="{% url 'task_list' %}">View All Tasks</a>
+        <a class="small" href="{% url 'create_task' %}">New Task</a>
         <a class="small" href="{% url 'create_employee' %}">Create Employee</a>
       </div>
+
+      <section style="margin-top: 18px">
+        <h3>Task Overview</h3>
+        <div class="row" style="flex-wrap: wrap; gap: 16px">
+          <div class="small">Total: {{ stats.total }}</div>
+          <div class="small">Pending: {{ stats.pending }}</div>
+          <div class="small">In Progress: {{ stats.in_progress }}</div>
+          <div class="small">Done: {{ stats.done }}</div>
+          <div class="small">Reviewed: {{ stats.reviewed }}</div>
+          <div class="small">Rejected: {{ stats.rejected }}</div>
+        </div>
+      </section>
 
       <section style="margin-top: 18px">
         <h3>Employees</h3>
@@ -74,13 +87,17 @@
       </section>
 
       <section style="margin-top: 18px">
-        <h3>Tasks</h3>
+        <h3>Recent Tasks</h3>
         {% if tasks %}
         <ul>
           {% for t in tasks %}
-          <li>{{ t }}</li>
+          <li>
+            {{ t.title }} — {{ t.assigned_to.get_full_name|default:t.assigned_to.username }}
+            — <span class="muted">{{ t.get_status_display }}</span>
+          </li>
           {% endfor %}
         </ul>
+        <a class="small" href="{% url 'task_list' %}">View all tasks</a>
         {% else %}
         <div class="notice">No tasks available.</div>
         {% endif %}

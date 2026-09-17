@@ -1,0 +1,69 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>My Tasks</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-title">TaskFlow</div>
+      <div class="site-actions">
+        <a class="btn secondary" href="{% url 'dashboard' %}">Dashboard</a>
+      </div>
+    </header>
+
+    <main class="container">
+      <h1>My Tasks</h1>
+
+      {% if tasks %}
+      <ul>
+        {% for t in tasks %}
+        <li style="margin-bottom: 10px">
+          <strong>{{ t.title }}</strong> — {{ t.get_priority_display }}
+          — <span class="muted">{{ t.get_status_display }}</span>
+          {% if t.description %}
+          <div class="small">{{ t.description }}</div>
+          {% endif %}
+
+          {% if t.status == "pending" %}
+          <form method="post" action="{% url 'update_task_status' t.id %}" style="display: inline">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="in_progress" />
+            <button class="link-button">Start</button>
+          </form>
+          {% endif %}
+
+          {% if t.status == "in_progress" %}
+          <form method="post" action="{% url 'update_task_status' t.id %}" style="display: inline">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="done" />
+            <button class="link-button">Mark Done</button>
+          </form>
+          {% endif %}
+
+          {% if t.status == "rejected" %}
+          <form method="post" action="{% url 'update_task_status' t.id %}" style="display: inline">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="in_progress" />
+            <button class="link-button">Resume</button>
+          </form>
+          <form method="post" action="{% url 'update_task_status' t.id %}" style="display: inline">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="done" />
+            <button class="link-button">Mark Done</button>
+          </form>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="notice">No tasks assigned yet.</div>
+      {% endif %}
+    </main>
+
+    <footer class="site-footer">TaskFlow — minimal interface</footer>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>
