@@ -24,8 +24,8 @@
         (Employee)
       </h2>
 
-      <div class="row">
-        <a class="small" href="{% url 'my_tasks' %}">My Tasks ({{ tasks|length }})</a>
+      <div class="chip-row">
+        <a class="chip" href="{% url 'my_tasks' %}">My Tasks ({{ tasks|length }})</a>
       </div>
     </main>
     <script src="{% static 'js/main.js' %}"></script>

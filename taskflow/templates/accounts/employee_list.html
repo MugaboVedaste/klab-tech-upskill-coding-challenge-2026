@@ -25,7 +25,7 @@
           {% if e.is_active %}
           <form method="post" action="{% url 'pause_employee' e.id %}" style="display: inline">
             {% csrf_token %}
-            <button class="link-button" data-confirm="Pause this employee?">Pause</button>
+            <button class="link-button danger" data-confirm="Pause this employee?">Pause</button>
           </form>
           {% endif %}
           {% if not e.is_active %}

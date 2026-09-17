@@ -27,10 +27,10 @@
         <div class="small">Rejected: {{ stats.rejected }}</div>
       </section>
 
-      <section class="row" style="flex-wrap: wrap; gap: 10px; margin-bottom: 18px">
-        <a class="small" href="{% url 'task_list' %}">All</a>
+      <section class="chip-row" style="margin-bottom: 18px">
+        <a class="chip{% if not status %} active{% endif %}" href="{% url 'task_list' %}">All</a>
         {% for value, label in statuses.choices %}
-        <a class="small" href="{% url 'task_list' %}?status={{ value }}">{{ label }}</a>
+        <a class="chip{% if status == value %} active{% endif %}" href="{% url 'task_list' %}?status={{ value }}">{{ label }}</a>
         {% endfor %}
       </section>
 
@@ -46,12 +46,12 @@
           <form method="post" action="{% url 'review_task' t.id %}" style="display: inline">
             {% csrf_token %}
             <input type="hidden" name="decision" value="reviewed" />
-            <button class="link-button">Mark Reviewed</button>
+            <button class="link-button primary">Mark Reviewed</button>
           </form>
           <form method="post" action="{% url 'review_task' t.id %}" style="display: inline">
             {% csrf_token %}
             <input type="hidden" name="decision" value="rejected" />
-            <button class="link-button">Reject</button>
+            <button class="link-button danger">Reject</button>
           </form>
           {% endif %}
         </li>

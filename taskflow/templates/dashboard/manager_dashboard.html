@@ -24,10 +24,10 @@
         (Manager)
       </h2>
 
-      <div class="row">
-        <a class="small" href="{% url 'task_list' %}">View All Tasks</a>
-        <a class="small" href="{% url 'create_task' %}">New Task</a>
-        <a class="small" href="{% url 'create_employee' %}">Create Employee</a>
+      <div class="chip-row">
+        <a class="chip" href="{% url 'task_list' %}">View All Tasks</a>
+        <a class="chip" href="{% url 'create_task' %}">New Task</a>
+        <a class="chip" href="{% url 'create_employee' %}">Create Employee</a>
       </div>
 
       <section style="margin-top: 18px">
@@ -96,7 +96,7 @@
               style="display: inline"
             >
               {% csrf_token %}<button
-                class="link-button"
+                class="link-button danger"
                 data-confirm="Pause this employee?"
               >
                 Pause
@@ -137,7 +137,7 @@
           </li>
           {% endfor %}
         </ul>
-        <a class="small" href="{% url 'task_list' %}">View all tasks</a>
+        <a class="chip" href="{% url 'task_list' %}">View all tasks</a>
         {% else %}
         <div class="notice">No tasks available.</div>
         {% endif %}

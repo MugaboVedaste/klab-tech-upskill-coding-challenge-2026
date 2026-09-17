@@ -52,7 +52,41 @@ button:hover{background:#808080}
 /* Utility classes */
 .btn{display:inline-block;padding:10px 14px;border-radius:6px;background:var(--accent);color:#fff;text-decoration:none;border:none;cursor:pointer}
 .btn.secondary{background:#ffffff;color:var(--text);border:1px solid var(--border)}
-.link-button{background:transparent;border:none;color:var(--muted);cursor:pointer;text-decoration:underline;padding:0}
+
+/* Compact action buttons (used inside list rows, e.g. Start/Pause/Reject) */
+.link-button{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:6px;
+  background:#ffffff;
+  color:var(--text);
+  border:1px solid var(--border);
+  cursor:pointer;
+  font-size:0.85rem;
+  line-height:1.2;
+  text-decoration:none;
+}
+.link-button:hover{background:var(--panel)}
+.link-button.danger{color:#b3261e;border-color:#e3b3ae}
+.link-button.danger:hover{background:#fdecea}
+.link-button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.link-button.primary:hover{background:#808080}
+
+/* Compact nav/quick-action buttons (View All Tasks, My Tasks, filter tabs...) */
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:999px;
+  background:#ffffff;
+  border:1px solid var(--border);
+  color:var(--muted);
+  text-decoration:none;
+  font-size:0.85rem;
+  line-height:1.2;
+}
+.chip:hover{background:var(--panel)}
+.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(0,0,0,0.04);border-color:var(--border)}
 
