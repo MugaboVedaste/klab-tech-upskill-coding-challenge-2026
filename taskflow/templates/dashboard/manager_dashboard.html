@@ -43,6 +43,46 @@
       </section>
 
       <section style="margin-top: 18px">
+        <h3>Task Trend (Last 7 Days)</h3>
+        <svg
+          class="trend-chart"
+          viewBox="0 0 {{ trend.width }} {{ trend.height }}"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          aria-label="Tasks created vs reviewed over the last 7 days"
+        >
+          <line
+            class="trend-axis"
+            x1="0" y1="{{ trend.baseline_y }}"
+            x2="{{ trend.width }}" y2="{{ trend.baseline_y }}"
+          />
+          <text class="trend-axis-label" x="0" y="{{ trend.peak_y }}">{{ trend.peak }}</text>
+          <text class="trend-axis-label" x="0" y="{{ trend.baseline_y }}">0</text>
+
+          <polyline class="trend-line created" points="{{ trend.created_line }}" />
+          <polyline class="trend-line completed" points="{{ trend.completed_line }}" />
+
+          {% for p in trend.points %}
+          <circle class="trend-point created" cx="{{ p.x }}" cy="{{ p.y_created }}" r="3">
+            <title>{{ p.label }} — Created: {{ p.created }}</title>
+          </circle>
+          <circle class="trend-point completed" cx="{{ p.x }}" cy="{{ p.y_completed }}" r="3">
+            <title>{{ p.label }} — Reviewed: {{ p.completed }}</title>
+          </circle>
+          <text class="trend-day-label" x="{{ p.x }}" y="{{ trend.height }}">{{ p.label }}</text>
+          {% endfor %}
+        </svg>
+        <div class="trend-legend">
+          <div class="trend-legend-item">
+            <span class="trend-legend-swatch created"></span> Created
+          </div>
+          <div class="trend-legend-item">
+            <span class="trend-legend-swatch completed"></span> Reviewed
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-top: 18px">
         <h3>Employees</h3>
         {% if employees %}
         <ul>

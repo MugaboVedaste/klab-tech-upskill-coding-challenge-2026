@@ -56,4 +56,20 @@ button:hover{background:#808080}
 
 input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(0,0,0,0.04);border-color:var(--border)}
 
+/* Trend line chart */
+.trend-chart{width:100%;max-width:560px;height:auto;overflow:visible}
+.trend-axis{stroke:var(--border);stroke-width:1}
+.trend-axis-label{font-size:9px;fill:var(--muted);text-anchor:start}
+.trend-day-label{font-size:9px;fill:var(--muted);text-anchor:middle}
+.trend-line{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.trend-line.created{stroke:var(--accent)}
+.trend-line.completed{stroke:#4a9b6e}
+.trend-point.created{fill:var(--accent)}
+.trend-point.completed{fill:#4a9b6e}
+.trend-legend{display:flex;gap:16px;margin-top:10px}
+.trend-legend-item{display:flex;align-items:center;gap:6px;font-size:0.85rem;color:var(--muted)}
+.trend-legend-swatch{width:10px;height:10px;border-radius:2px;display:inline-block}
+.trend-legend-swatch.created{background:var(--accent)}
+.trend-legend-swatch.completed{background:#4a9b6e}
+
 footer.site-footer{margin-top:22px;padding:12px;text-align:center;color:var(--muted);font-size:0.9rem}
