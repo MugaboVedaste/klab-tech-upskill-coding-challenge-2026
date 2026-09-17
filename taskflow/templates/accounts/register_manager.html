@@ -1,16 +1,22 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create Employee</title>
+    <title>Register as Manager</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
   <body>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <header class="site-header">
+      <div class="site-title">TaskFlow</div>
+    </header>
 
-    <div class="container">
-      <h1>Create Employee</h1>
+    <main class="container">
+      <h1>Register as Manager</h1>
+      {% if error %}
+      <div class="notice">{{ error }}</div>
+      {% endif %}
 
       <form method="POST">
         {% csrf_token %}
@@ -36,15 +42,26 @@
         </div>
 
         <div class="form-row">
-          <label>Temporary Password</label>
+          <label>Password</label>
           <input type="password" name="password" required />
         </div>
 
+        <div class="form-row">
+          <label>Department (optional)</label>
+          <input type="text" name="department" />
+        </div>
+
         <div class="row">
-          <button type="submit">Create Employee</button>
+          <button type="submit" class="btn">Register</button>
         </div>
       </form>
-    </div>
+
+      <div class="links small">
+        After submission an administrator will approve your account.
+      </div>
+    </main>
+
+    <footer class="site-footer">TaskFlow — minimal interface</footer>
     <script src="{% static 'js/main.js' %}"></script>
   </body>
 </html>

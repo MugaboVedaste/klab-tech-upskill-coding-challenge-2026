@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Submitted</title>
+  </head>
+  <body>
+    <h1>Registration Submitted</h1>
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-title">TaskFlow</div>
+    </header>
+
+    <main class="container center">
+      <h1>Registration Submitted</h1>
+      <div class="notice">
+        <p>Thanks {{ username }}. Your manager registration has been submitted and is awaiting approval by a site administrator.</p>
+        <p>Once approved, you'll be able to login at <a href="/accounts/login/">Login</a>.</p>
+      </div>
+    </main>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+  </html>
+  </body>
+</html>
