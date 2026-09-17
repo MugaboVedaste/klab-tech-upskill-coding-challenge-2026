@@ -1,0 +1,68 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tasks</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-title">TaskFlow</div>
+      <div class="site-actions">
+        <a class="btn" href="{% url 'create_task' %}">New Task</a>
+        <a class="btn secondary" href="{% url 'dashboard' %}">Dashboard</a>
+      </div>
+    </header>
+
+    <main class="container">
+      <h1>Tasks</h1>
+
+      <section class="row" style="flex-wrap: wrap; gap: 16px; margin-bottom: 18px">
+        <div class="small">Total: {{ stats.total }}</div>
+        <div class="small">Pending: {{ stats.pending }}</div>
+        <div class="small">In Progress: {{ stats.in_progress }}</div>
+        <div class="small">Done: {{ stats.done }}</div>
+        <div class="small">Reviewed: {{ stats.reviewed }}</div>
+        <div class="small">Rejected: {{ stats.rejected }}</div>
+      </section>
+
+      <section class="row" style="flex-wrap: wrap; gap: 10px; margin-bottom: 18px">
+        <a class="small" href="{% url 'task_list' %}">All</a>
+        {% for value, label in statuses.choices %}
+        <a class="small" href="{% url 'task_list' %}?status={{ value }}">{{ label }}</a>
+        {% endfor %}
+      </section>
+
+      {% if tasks %}
+      <ul>
+        {% for t in tasks %}
+        <li style="margin-bottom: 10px">
+          <strong>{{ t.title }}</strong> — {{ t.get_priority_display }} —
+          assigned to {{ t.assigned_to.get_full_name|default:t.assigned_to.username }}
+          — <span class="muted">{{ t.get_status_display }}</span>
+
+          {% if t.status == "done" %}
+          <form method="post" action="{% url 'review_task' t.id %}" style="display: inline">
+            {% csrf_token %}
+            <input type="hidden" name="decision" value="reviewed" />
+            <button class="link-button">Mark Reviewed</button>
+          </form>
+          <form method="post" action="{% url 'review_task' t.id %}" style="display: inline">
+            {% csrf_token %}
+            <input type="hidden" name="decision" value="rejected" />
+            <button class="link-button">Reject</button>
+          </form>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="notice">No tasks found.</div>
+      {% endif %}
+    </main>
+
+    <footer class="site-footer">TaskFlow — minimal interface</footer>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

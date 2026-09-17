@@ -14,8 +14,20 @@ class User(AbstractUser):
         default=Role.EMPLOYEE,
     )
 
-    # Optional department for managers
-    department = models.CharField(max_length=100, null=True, blank=True)
+    email = models.EmailField("email address", blank=True, unique=True)
+
+    # Optional department for managers; employees inherit their manager's department
+    department = models.CharField(max_length=100, blank=True, default="")
+
+    # The manager who created/owns this employee (unset for managers themselves)
+    manager = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="employees",
+        limit_choices_to={"role": Role.MANAGER},
+    )
 
     def __str__(self):
         return self.username
