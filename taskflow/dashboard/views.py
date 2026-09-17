@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -68,8 +68,12 @@ def _task_trend(tasks):
 
 @login_required
 def dashboard_view(request):
+	# Superusers are site administrators, not TaskFlow managers/employees
+	if request.user.is_superuser:
+		return redirect("/admin/")
+
 	# Render manager or employee dashboard based on user role
-	role = getattr(request.user, "role", "employee")
+	role = request.user.role
 	if role == "manager":
 		# get employees this manager owns
 		employees = User.objects.filter(role=User.Role.EMPLOYEE, manager=request.user)

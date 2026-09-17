@@ -1,5 +1,13 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager as DjangoUserManager
 from django.db import models
+
+
+class UserManager(DjangoUserManager):
+    def create_superuser(self, username, email=None, password=None, **extra_fields):
+        # Superusers are site administrators, not managers/employees in the
+        # business sense, so they get no TaskFlow role.
+        extra_fields.setdefault("role", "")
+        return super().create_superuser(username, email, password, **extra_fields)
 
 
 class User(AbstractUser):
@@ -12,7 +20,10 @@ class User(AbstractUser):
         max_length=20,
         choices=Role.choices,
         default=Role.EMPLOYEE,
+        blank=True,
     )
+
+    objects = UserManager()
 
     email = models.EmailField("email address", blank=True, unique=True)
 
